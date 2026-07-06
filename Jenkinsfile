@@ -19,5 +19,16 @@ pipeline {
                  bat "mvn test"
          }
 }
+       stage("Code coverage") {
+         steps {
+           sh "mvn clean verify"
+
+           publishHTML(target: [
+             reportDir: 'target/site/jacoco',
+             reportFiles: 'index.html',
+             reportName: "JaCoCo Report"
+           ])
+         }
+       }
     }
 }
