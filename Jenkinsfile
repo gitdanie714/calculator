@@ -34,5 +34,17 @@ pipeline {
                 ])
             }
         }
+
+        stage("Static code analysis") {
+          steps {
+            bat "mvn checkstyle:checkstyle"
+
+            publishHTML(target: [
+              reportDir: 'target/site',
+              reportFiles: 'checkstyle.html',
+              reportName: "Checkstyle Report"
+            ])
+          }
+        }
     }
 }
