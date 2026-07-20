@@ -9,26 +9,30 @@ pipeline {
             }
         }
 
-        stage("Compile") {
+        stage("Build, Test & Coverage") {
             steps {
-                bat 'mvn compile'
+                bat "mvn clean verify"
             }
         }
-      stage("Unit test") {
-            steps {
-                 bat "mvn test"
-         }
-}
-       stage("Code coverage") {
-         steps {
-           bat "mvn clean verify"
 
-           publishHTML(target: [
-             reportDir: 'target/site/jacoco',
-             reportFiles: 'index.html',
-             reportName: "JaCoCo Report"
-           ])
-         }
-       }
+        stage("Publish Coverage") {
+            steps {
+                jacoco(
+                    execPattern: '**/target/jacoco.exec',
+                    classPattern: '**/target/classes',
+                    sourcePattern: '**/src/main/java'
+                )
+            }
+        }
+
+        stage("Publish HTML Report") {
+            steps {
+                publishHTML(target: [
+                    reportDir: 'target/site/jacoco',
+                    reportFiles: 'index.html',
+                    reportName: "JaCoCo Report"
+                ])
+            }
+        }
     }
 }
