@@ -1,7 +1,12 @@
 pipeline {
     agent any
 
+    triggers {
+        cron('H/5 * * * *')
+    }
+
     stages {
+
         stage("Checkout") {
             steps {
                 git branch: 'master',
@@ -36,15 +41,15 @@ pipeline {
         }
 
         stage("Static code analysis") {
-          steps {
-            bat "mvn checkstyle:checkstyle"
+            steps {
+                bat "mvn checkstyle:checkstyle"
 
-            publishHTML(target: [
-              reportDir: 'target/site',
-              reportFiles: 'checkstyle.html',
-              reportName: "Checkstyle Report"
-            ])
-          }
+                publishHTML(target: [
+                    reportDir: 'target/site',
+                    reportFiles: 'checkstyle.html',
+                    reportName: "Checkstyle Report"
+                ])
+            }
         }
     }
 }
