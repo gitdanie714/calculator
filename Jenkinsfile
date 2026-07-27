@@ -40,14 +40,6 @@ pipeline {
             }
         }
 
-        stage('Check Timezone') {
-            steps {
-                script {
-                    println "Timezone: ${java.util.TimeZone.getDefault()}"
-                }
-            }
-        }
-
         stage("Static code analysis") {
             steps {
                 bat "mvn checkstyle:checkstyle"
