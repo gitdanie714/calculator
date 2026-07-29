@@ -4,6 +4,18 @@ pipeline {
      triggers {
             cron('16 11 * * *')
         }
+     post {
+         success {
+             mail to: 'sheisgraced40@gmail.com',
+             subject: "SUCCESS: ${currentBuild.fullDisplayName}",
+             body: "Build succeeded ✅\n${env.BUILD_URL}"
+         }
+         failure {
+             mail to: 'sheisgraced40@gmail.com',
+             subject: "FAILED: ${currentBuild.fullDisplayName}",
+             body: "Build failed ❌\nCheck logs: ${env.BUILD_URL}"
+         }
+     }
 
     stages {
 
