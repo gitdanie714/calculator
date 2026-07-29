@@ -3,6 +3,7 @@ pipeline {
 
      triggers {
             cron('16 11 * * *')
+            githubPush()
         }
      post {
          success {
