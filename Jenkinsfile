@@ -6,8 +6,8 @@ pipeline {
     }
 
     triggers {
-        githubPush()
         cron('16 11 * * *')
+        githubPush()
     }
 
     stages {
