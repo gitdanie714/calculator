@@ -18,10 +18,7 @@ spec:
 
     spec:
       containers:
-
         - name: calculator
-
           image: elladev20/calculator-app:v1
-
           ports:
             - containerPort: 8080

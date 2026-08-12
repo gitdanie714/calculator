@@ -45,7 +45,7 @@ pipeline {
             }
         }
 
-        stage("Static code analysis") {
+        stage("Static Code Analysis") {
             steps {
                 bat "mvn checkstyle:checkstyle"
 
@@ -56,6 +56,29 @@ pipeline {
                 ])
             }
         }
+
+        stage("Build Docker Image") {
+            steps {
+                bat "docker build -t elladev20/calculator-app:v1 ."
+            }
+        }
+
+        stage("Push Docker Image") {
+            steps {
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'dockerhub',
+                        usernameVariable: 'DOCKER_USER',
+                        passwordVariable: 'DOCKER_PASS'
+                    )
+                ]) {
+                    bat '''
+                        docker login -u %DOCKER_USER% -p %DOCKER_PASS%
+                        docker push elladev20/calculator-app:v1
+                    '''
+                }
+            }
+        }
     }
 
     post {
@@ -64,6 +87,7 @@ pipeline {
                 subject: "SUCCESS: ${currentBuild.fullDisplayName}",
                 body: "Build succeeded ✅\n${env.BUILD_URL}"
         }
+
         failure {
             mail to: 'sheisgraced40@gmail.com',
                 subject: "FAILED: ${currentBuild.fullDisplayName}",

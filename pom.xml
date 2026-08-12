@@ -23,6 +23,7 @@
 
 	<properties>
 		<java.version>21</java.version>
+		<packaging>jar</packaging>
 	</properties>
 
 	<dependencies>
