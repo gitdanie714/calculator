@@ -79,6 +79,18 @@ pipeline {
                 }
             }
         }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                bat 'kubectl apply -f k8s/'
+            }
+        }
+
+        stage('Verify Deployment') {
+            steps {
+                bat 'kubectl rollout status deployment/calculator-app'
+            }
+        }
     }
 
     post {
