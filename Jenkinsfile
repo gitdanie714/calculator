@@ -95,13 +95,13 @@ pipeline {
 
     post {
         success {
-            mail to: 'sheisgraced20@gmail.com',
+            mail to: 'sheisgraced40@gmail.com',
                 subject: "SUCCESS: ${currentBuild.fullDisplayName}",
                 body: "Build succeeded ✅\n${env.BUILD_URL}"
         }
 
         failure {
-            mail to: 'sheisgraced20@gmail.com',
+            mail to: 'sheisgraced40@gmail.com',
                 subject: "FAILED: ${currentBuild.fullDisplayName}",
                 body: "Build failed ❌\nCheck logs: ${env.BUILD_URL}"
         }
