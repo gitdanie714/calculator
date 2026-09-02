@@ -91,7 +91,23 @@ pipeline {
                 bat 'kubectl rollout status deployment/calculator-app'
             }
         }
+
+        stage('Show Application URL') {
+            steps {
+                bat '''
+                    echo Kubernetes Service:
+                    kubectl get service calculator-service
+
+                    echo.
+                    echo LoadBalancer IP:
+                    kubectl get service calculator-service -o jsonpath="{.status.loadBalancer.ingress[0].ip}"
+                    echo.
+                '''
+            }
+        }
     }
+
+
 
     post {
         success {
