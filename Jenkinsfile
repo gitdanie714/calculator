@@ -95,16 +95,30 @@ pipeline {
         stage('Show Application URL') {
             steps {
                 bat '''
-                    echo Kubernetes Service:
+                    echo ================================
+                    echo Kubernetes Deployment:
+                    echo ================================
+                    kubectl get deployment calculator-app
+
+                    echo.
+                    echo ================================
+                    echo Pods:
+                    echo ================================
+                    kubectl get pods
+
+                    echo.
+                    echo ================================
+                    echo Service:
+                    echo ================================
                     kubectl get service calculator-service
 
                     echo.
-                    echo LoadBalancer IP:
-                    kubectl get service calculator-service -o jsonpath="{.status.loadBalancer.ingress[0].ip}"
-                    echo.
+                    echo ================================
+                    echo Application URL:
+                    echo ================================
+                    minikube service calculator-service --url
                 '''
             }
-        }
     }
 
 
