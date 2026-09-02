@@ -119,6 +119,7 @@ pipeline {
                     minikube service calculator-service --url
                 '''
             }
+        }
     }
 
 
